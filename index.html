@@ -1,320 +1,375 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>JANATHA GARMENT</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JANATHA GARMENT — Premium Apparel</title>
 
-    body {
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      color: #f9f9f9;
-      background: radial-gradient(circle at top, #151528, #050608 55%, #000 100%);
-      min-height: 100vh;
-      overflow-x: hidden;
-    }
+<!-- Google Font -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
 
-    img { width: 100%; display: block; }
+<style>
+/* BASIC RESET */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: "Poppins", sans-serif; background: #f6f7f9; color: #111; overflow-x: hidden; }
 
-    /* VIDEO BACKGROUND */
-    .video-bg {
-      position: fixed; inset: 0; z-index: -2; overflow: hidden;
-    }
-    .video-bg iframe {
-      width: 100%; height: 100%; pointer-events: none; border: none;
-    }
-    .video-overlay {
-      position: fixed; inset: 0;
-      background: rgba(0, 0, 0, 0.82);
-      z-index: -1;
-    }
+/* -------------- BACKGROUND VIDEO ---------------- */
+.video-bg {
+    position: fixed;
+    inset: 0;
+    z-index: -2;
+    opacity: 0.20;
+    overflow: hidden;
+}
+.video-bg iframe {
+    width: 100vw;
+    height: 56.25vw;
+    min-height: 100vh;
+    min-width: 177.77vh;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+}
+.video-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    background: rgba(0,0,0,0.05);
+}
 
-    /* HEADER */
+/* ---------------- HEADER ---------------- */
+header {
+    position: sticky;
+    top: 0;
+    padding: 12px 18px;
+    background: rgba(255,255,255,0.75);
+    backdrop-filter: blur(6px);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+    z-index: 50;
+
+    display: grid;
+    grid-template-columns: 1fr auto 1fr; /* left - center - right */
+    align-items: center;
+}
+
+/* LEFT SECTION (Logo only) */
+.header-left {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.logo img {
+    width: 80px;       /* increased size */
+    height: 80px;      /* increased size */
+    border-radius: 12px;
+    object-fit: cover;
+}
+
+/* CENTER SECTION (Brand Name Centered) */
+.header-center {
+    text-align: center;
+}
+.brand {
+    font-family: "Playfair Display", serif;
+    font-size: 40px;     /* BIGGER NAME */
+    font-weight: 800;
+    letter-spacing: 1px;
+    color: #f06b3a;
+}
+
+/* RIGHT SECTION (Nav + Buttons) */
+.header-right {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 12px;
+}
+
+nav a {
+    color: #222;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 16px;
+    padding: 6px 10px;
+}
+
+.btn {
+    padding: 8px 14px;
+    border-radius: 8px;
+    background: linear-gradient(90deg,#f06b3a,#2b77ff);
+    color: white;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+/* MOBILE FIX */
+@media(max-width: 750px) {
     header {
-      position: sticky;
-      top: 0;
-      z-index: 2000;
-      background: rgba(4, 4, 16, 0.97);
-      backdrop-filter: blur(14px);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        grid-template-columns: 1fr;
+        text-align: center;
+        gap: 8px;
+        padding-bottom: 14px;
     }
 
-    .header-inner {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 0.6rem 1rem;
-      flex-wrap: wrap;
-      gap: 8px;
-    }
-
-    /* NAVIGATION */
-    .nav-links {
-      display: flex;
-      gap: 1rem;
-      font-size: 1rem;
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-      color: #fff;
-    }
-
-    .nav-links a { position: relative; padding-bottom: 2px; }
-    .nav-links a:hover { color: #ffd700; }
-
-    /* BRAND */
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 0.6rem;
-    }
-
-    .brand-logo-wrap {
-      width: 48px; height: 48px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, #fdd37a, #ff3b7f);
-      padding: 4px;
-    }
-
-    .brand-logo-wrap img {
-      width: 100%; height: 100%; object-fit: contain;
-      mix-blend-mode: screen;
-    }
-
-    .brand-name {
-      font-size: clamp(1.4rem, 5vw, 2.4rem);
-      font-weight: 900;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      background: linear-gradient(120deg, #ffeaa7, #ffd700, #ff3b7f, #00f0ff);
-      -webkit-background-clip: text;
-      color: transparent;
-      text-shadow: 0 0 18px rgba(255, 185, 80, 0.8);
-      white-space: nowrap;
-    }
-
-    /* RIGHT PANEL */
     .header-right {
-      text-align: right;
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-      flex-wrap: wrap;
+        justify-content: center;
+        flex-wrap: wrap;
     }
 
-    .top-address {
-      font-size: 0.8rem;
-      background: linear-gradient(120deg, #00e1ff, #ffdd59, #ff6b81);
-      -webkit-background-clip: text;
-      color: transparent;
-      font-weight: 600;
+    .brand {
+        font-size: 32px;
     }
 
-    .top-actions {
-      display: flex;
-      gap: 6px;
-      flex-wrap: wrap;
-      justify-content: flex-end;
+    .logo img {
+        width: 70px;
+        height: 70px;
     }
+}
 
-    .contact-pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      padding: 0.35rem 0.85rem;
-      border-radius: 999px;
-      background: rgba(255, 255, 255, 0.08);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      cursor: pointer;
-      font-size: 0.75rem;
-      transition: 0.2s;
-    }
-    .contact-pill:hover {
-      background: rgba(255, 255, 255, 0.16);
-      border-color: #ffd700;
-    }
+/* ---------------- HERO SECTION ---------------- */
+.hero {
+    padding: 80px 20px 40px;
+    text-align: center;
+}
+.hero-inner {
+    max-width: 1100px;
+    margin: auto;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    justify-content: center;
+    align-items: center;
+}
+.hero-left {
+    flex: 1 1 400px;
+}
+.hero-title {
+    font-family: "Playfair Display", serif;
+    font-size: 40px;
+    font-weight: 700;
+    margin-bottom: 12px;
+    color: #0b2340;
+}
+.hero-sub {
+    font-size: 17px;
+    margin-bottom: 18px;
+}
+.quote {
+    padding: 14px;
+    background: rgba(255,255,255,0.6);
+    display: inline-block;
+    border-radius: 10px;
+    font-style: italic;
+    max-width: 90%;
+    font-size: 16px;
+}
+.shop-now {
+    cursor: pointer;
+    padding: 12px 22px;
+    background: linear-gradient(90deg,#f06b3a,#2b77ff);
+    border: none;
+    border-radius: 10px;
+    color: white;
+    font-size: 17px;
+    font-weight: 700;
+    margin-top: 20px;
+}
 
-    /* MAIN */
-    main { padding: 1rem; }
+/* HERO RIGHT IMAGES */
+.hero-right {
+    flex: 1 1 360px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+.hero-right img {
+    width: 100%;
+    aspect-ratio: 4/3;
+    height: auto;
+    object-fit: cover;
+    border-radius: 10px;
+}
 
-    /* HERO SECTION */
-    .hero {
-      margin-top: 1rem;
-      display: flex;
-      flex-direction: column;
-      gap: 1.7rem;
-    }
+/* PRODUCT GRID */
+.section {
+    padding: 20px;
+    max-width: 1200px;
+    margin: auto;
+}
+.section h2 {
+    text-align: center;
+    font-family: "Playfair Display", serif;
+    font-size: 28px;
+    margin-bottom: 20px;
+}
+.grid {
+    display: grid;
+    gap: 15px;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+}
+.hero-thumb {
+    width: 100%;
+    aspect-ratio: 4/5;
+    height: auto;
+    object-fit: cover;
+    border-radius: 10px;
+    cursor: zoom-in;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
 
-    .hero-title {
-      font-size: clamp(1.8rem, 4.5vw, 3rem);
-      font-weight: 800;
-      line-height: 1.2;
-    }
+/* MODAL */
+.modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.75);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: 0.25s;
+    z-index: 100;
+}
+.modal.open {
+    opacity: 1;
+    pointer-events: all;
+}
+.modal img {
+    max-width: 90%;
+    max-height: 80vh;
+    border-radius: 10px;
+}
+.modal-close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    font-size: 28px;
+    background: none;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
 
-    .hero-title span {
-      background: linear-gradient(120deg, #ffd700, #ff3b7f);
-      -webkit-background-clip: text;
-      color: transparent;
-    }
-
-    .hero-quote {
-      font-size: 1rem;
-      line-height: 1.5;
-      opacity: 0.9;
-    }
-
-    .hero-actions {
-      display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-
-    .btn {
-      padding: 0.55rem 1.5rem;
-      border-radius: 999px;
-      font-size: 0.85rem;
-      font-weight: 600;
-      border: none;
-      cursor: pointer;
-    }
-
-    .btn-primary {
-      background: linear-gradient(120deg, #ffd700, #ff8c00);
-      color: #111;
-    }
-
-    .btn-outline {
-      background: transparent;
-      border: 1px solid #fff;
-      color: #fff;
-    }
-
-    /* GALLERY */
-    .hero-right {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-      gap: 12px;
-    }
-
-    .gallery-card {
-      position: relative;
-      border-radius: 14px;
-      overflow: hidden;
-      transition: 0.3s;
-      cursor: pointer;
-      aspect-ratio: 3/4;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.5);
-    }
-
-    .gallery-card:hover {
-      transform: scale(1.03);
-      box-shadow: 0 0 30px rgba(255, 215, 120, 0.9);
-    }
-
-    .gallery-label {
-      position: absolute;
-      left: 10px;
-      bottom: 10px;
-      background: rgba(0,0,0,0.6);
-      padding: 4px 10px;
-      font-size: 0.7rem;
-      border-radius: 999px;
-      border: 1px solid rgba(255,255,255,0.2);
-    }
-
-    /* MOBILE FIXES */
-    @media (max-width: 600px) {
-      .header-inner {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 10px;
-      }
-
-      .header-right { text-align: left; align-items: flex-start; }
-
-      .brand-name { font-size: 1.6rem; letter-spacing: 0.12em; }
-
-      .hero { text-align: left; }
-
-      .hero-actions { justify-content: flex-start; }
-
-      .gallery-card { min-width: 150px; }
-    }
-  </style>
+/* FOOTER */
+footer {
+    text-align: center;
+    padding: 20px;
+    background: rgba(255,255,255,0.7);
+    backdrop-filter: blur(6px);
+    font-size: 14px;
+    margin-top: 20px;
+}
+</style>
 </head>
 
 <body>
 
-  <!-- VIDEO BACKGROUND -->
-  <div class="video-bg">
-    <iframe src="https://www.youtube.com/embed/Xdz09cSPOWI?autoplay=1&mute=1&controls=0&loop=1&playlist=Xdz09cSPOWI"
-      allow="autoplay">
-    </iframe>
-  </div>
-  <div class="video-overlay"></div>
+<!-- Background Video -->
+<div class="video-bg">
+    <iframe src="https://www.youtube.com/embed/Xdz09cSPOWI?autoplay=1&mute=1&loop=1&playlist=Xdz09cSPOWI&controls=0&modestbranding=1" allow="autoplay"></iframe>
+</div>
+<div class="video-overlay"></div>
 
-  <!-- HEADER -->
-  <header>
-    <div class="header-inner">
-      <div class="nav-links">
-        <a href="#home">Home</a>
-        <a href="tel:7305272710">Contact</a>
-      </div>
+<!-- HEADER -->
+<header>
 
-      <div class="brand">
-        <div class="brand-logo-wrap">
-          <img src="https://tse3.mm.bing.net/th/id/OIP.TuKENYrYVYNXcTuHvUR8CAHaFj?pid=Api&P=0&h=180">
+    <!-- LEFT -->
+    <div class="header-left">
+        <div class="logo">
+            <img src="https://tse3.mm.bing.net/th/id/OIP.TuKENYrYVYNXcTuHvUR8CAHaFj?pid=Api&P=0&h=180">
         </div>
-        <div class="brand-name">JANATHA GARMENT</div>
-      </div>
-
-      <div class="header-right">
-        <div class="top-address">
-          No.28 Walaja Complex, N.S.B. Road, Trichy-620002.
-        </div>
-        <div class="top-actions">
-          <button class="contact-pill" onclick="window.location.href='tel:7305272710'">📞 Call</button>
-          <button class="contact-pill" onclick="window.location.href='mailto:janathagarments@gmail.com'">✉️ Mail</button>
-        </div>
-      </div>
     </div>
-  </header>
 
-  <!-- MAIN -->
-  <main id="home">
-    <section class="hero">
-      <h1 class="hero-title">
-        Fashion that elevates <span>your presence.</span>
-      </h1>
+    <!-- CENTER -->
+    <div class="header-center">
+        <div class="brand">JANATHA GARMENT</div>
+    </div>
 
-      <p class="hero-quote">
-        “Fashion changes, but confidence stays forever.<br>
-        Choose outfits that elevate your presence and define your vibe.”
-      </p>
+    <!-- RIGHT -->
+    <div class="header-right">
+        <nav>
+            <a href="#top">Home</a>
+            <a href="tel:+917305272710">Contact</a>
+        </nav>
+        <a class="btn" href="tel:+917305272710">Call</a>
+        <a class="btn" href="mailto:janathagarments@gmail.com">Mail</a>
+    </div>
+</header>
 
-      <div class="hero-actions">
-        <button class="btn btn-primary" onclick="document.querySelector('.hero-right').scrollIntoView({behavior:'smooth'})">Shop Now</button>
-        <button class="btn btn-outline" onclick="window.location.href='tel:7305272710'">Call Now</button>
-      </div>
+<!-- HERO -->
+<section class="hero" id="top">
+    <div class="hero-inner">
+        <div class="hero-left">
+            <h1 class="hero-title">Jackets & Outfits for the Modern Look</h1>
+            <div class="hero-sub">Premium fabrics • Modern fashion • Confident style</div>
 
-      <!-- GALLERY -->
-      <div class="hero-right">
-        <div class="gallery-card"><img src="https://i.ytimg.com/vi/K_7A1wImExU/maxresdefault.jpg"><div class="gallery-label">Smart casual</div></div>
-        <div class="gallery-card"><img src="https://i.ytimg.com/vi/e5rlSNk7X7M/maxresdefault.jpg"><div class="gallery-label">Essentials</div></div>
-        <div class="gallery-card"><img src="https://i.ytimg.com/vi/m9A-gW0rsbg/maxresdefault.jpg"><div class="gallery-label">Denim mood</div></div>
-        <div class="gallery-card"><img src="https://www.thefashionisto.com/wp-content/uploads/2023/07/Types-of-Shirts-Men-Popover.jpg"><div class="gallery-label">Shirts edit</div></div>
-        <div class="gallery-card"><img src="https://www.outfittrends.com/wp-content/uploads/2014/02/men-ripped-jeans-outfits.png"><div class="gallery-label">Street style</div></div>
-        <div class="gallery-card"><img src="https://i.pinimg.com/originals/cc/4e/84/cc4e8496ac5e3e23c94d99b4bc9c1a1f.jpg"><div class="gallery-label">Occasion wear</div></div>
-        <div class="gallery-card"><img src="https://www.tiptopgents.com/wp-content/uploads/2022/08/looklikeamen-20220827-00016739486733205185177-1238x1536.jpg"><div class="gallery-label">Statements</div></div>
-        <div class="gallery-card"><img src="https://www.stylethatmatters.com/img/19169052629019.jpg"><div class="gallery-label">Classic style</div></div>
-        <div class="gallery-card"><img src="https://cdn.shopify.com/s/files/1/0162/2116/files/30086895_166887547362125_7859526599601815552_n.jpg?v=1550739460"><div class="gallery-label">Casual fits</div></div>
-      </div>
-    </section>
-  </main>
+            <div class="quote">
+                “Fashion changes, but confidence stays forever.
+                Choose outfits that elevate your presence and define your vibe.”
+            </div>
+
+            <button class="shop-now" id="shopBtn">Shop Now</button>
+        </div>
+
+        <div class="hero-right">
+            <img src="https://i.ytimg.com/vi/K_7A1wImExU/maxresdefault.jpg">
+            <img src="https://i.ytimg.com/vi/e5rlSNk7X7M/maxresdefault.jpg">
+            <img src="https://i.ytimg.com/vi/m9A-gW0rsbg/maxresdefault.jpg">
+            <img src="https://www.thefashionisto.com/wp-content/uploads/2023/07/Types-of-Shirts-Men-Popover.jpg">
+        </div>
+    </div>
+</section>
+
+<!-- PRODUCT GRID -->
+<section class="section" id="products">
+    <h2>New Arrivals</h2>
+    <div class="grid">
+        <img class="hero-thumb" src="https://i.ytimg.com/vi/K_7A1wImExU/maxresdefault.jpg">
+        <img class="hero-thumb" src="https://i.ytimg.com/vi/e5rlSNk7X7M/maxresdefault.jpg">
+        <img class="hero-thumb" src="https://i.ytimg.com/vi/m9A-gW0rsbg/maxresdefault.jpg">
+        <img class="hero-thumb" src="https://www.thefashionisto.com/wp-content/uploads/2023/07/Types-of-Shirts-Men-Popover.jpg">
+        <img class="hero-thumb" src="https://www.outfittrends.com/wp-content/uploads/2014/02/men-ripped-jeans-outfits.png">
+        <img class="hero-thumb" src="https://i.pinimg.com/originals/cc/4e/84/cc4e8496ac5e3e23c94d99b4bc9c1a1f.jpg">
+        <img class="hero-thumb" src="https://www.tiptopgents.com/wp-content/uploads/2022/08/looklikeamen-20220827-00016739486733205185177-1238x1536.jpg">
+        <img class="hero-thumb" src="https://cdn.shopify.com/s/files/1/0162/2116/files/30086895_166887547362125_7859526599601815552_n.jpg?v=1550739460">
+    </div>
+</section>
+
+<!-- MODAL -->
+<div class="modal" id="imgModal">
+    <button class="modal-close" id="closeModal">✕</button>
+    <img id="modalImage">
+</div>
+
+<footer>
+    © JANATHA GARMENT • No.28 Walaja Complex, Trichy • janathagarments@gmail.com
+</footer>
+
+<script>
+// Shop Scroll
+document.getElementById("shopBtn").onclick = () => {
+    document.getElementById("products").scrollIntoView({ behavior: "smooth" });
+};
+
+// Modal Logic
+const modal = document.getElementById("imgModal");
+const modalImg = document.getElementById("modalImage");
+const closeModal = document.getElementById("closeModal");
+
+document.querySelectorAll(".hero-thumb").forEach(img => {
+    img.onclick = () => {
+        modalImg.src = img.src;
+        modal.classList.add("open");
+    };
+});
+
+closeModal.onclick = () => modal.classList.remove("open");
+modal.onclick = e => { if (e.target === modal) modal.classList.remove("open"); };
+</script>
 
 </body>
 </html>
