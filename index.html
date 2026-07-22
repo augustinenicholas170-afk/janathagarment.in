@@ -3,379 +3,538 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>JANATHA GARMENT — Premium Apparel</title>
-
-<!-- Google Fonts -->
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
-
+<title>2K Men's Wear — Billing</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <style>
-/* RESET */
-* { margin: 0; padding: 0; box-sizing: border-box; }
-body {
-    font-family: "Poppins", sans-serif;
-    background: #f6f7f9;
-    color: #111;
-    overflow-x: hidden;
-}
+  :root {
+    --ink: #1B2430;
+    --paper: #FAF9F6;
+    --canvas: #E7E2D6;
+    --route: #C1440E;
+    --steel: #7E8FA0;
+    --confirm: #2F6B4F;
+    --line: #D8D2C2;
+  }
 
-/* BACKGROUND VIDEO */
-.video-bg {
-    position: fixed;
-    inset: 0;
-    z-index: -2;
-    opacity: 0.20;
-    overflow: hidden;
-}
-.video-bg iframe {
-    width: 100vw;
-    height: 56.25vw;
-    min-width: 177.77vh;
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
     min-height: 100vh;
-    position: absolute;
-    top: 50%; left: 50%;
-    transform: translate(-50%, -50%);
-    pointer-events: none;
-}
-.video-overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.05);
-    z-index: -1;
-}
-
-/* HEADER */
-header {
-    position: sticky;
-    top: 0;
-    background: rgba(255,255,255,0.75);
-    backdrop-filter: blur(6px);
-    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
-    z-index: 50;
-
-    display: grid;
-    grid-template-columns: 1fr auto 1fr; /* LEFT – CENTER – RIGHT */
-    align-items: center;
-    padding: 12px 18px;
-}
-
-/* LEFT LOGO */
-.header-left {
+    background: var(--canvas);
+    background-image:
+      radial-gradient(circle at 1px 1px, rgba(27,36,48,0.06) 1px, transparent 0);
+    background-size: 22px 22px;
+    font-family: 'IBM Plex Sans', sans-serif;
+    color: var(--ink);
     display: flex;
-    align-items: center;
-    justify-content: flex-start;
-}
-.logo img {
-    width: 80px;
-    height: 80px;
-    border-radius: 12px;
-    object-fit: cover;
-}
+    align-items: flex-start;
+    justify-content: center;
+    padding: 48px 20px;
+  }
 
-/* CENTER BRAND NAME */
-.header-center {
-    text-align: center;
-}
-.brand {
-    font-family: "Playfair Display", serif;
-    font-size: 40px;
-    font-weight: 800;
-    color: #f06b3a;
-    letter-spacing: 1px;
+  .manifest {
+    width: 100%;
+    max-width: 560px;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    box-shadow: 0 1px 0 rgba(27,36,48,0.04), 0 20px 40px -24px rgba(27,36,48,0.35);
+    position: relative;
+  }
+
+  .manifest::before {
+    content: "";
+    position: absolute;
+    top: -1px; left: 0; right: 0;
+    height: 10px;
+    background-image: radial-gradient(circle, var(--canvas) 4px, transparent 4.5px);
+    background-size: 20px 20px;
+    background-position: -6px -6px;
+  }
+
+  .manifest-head {
+    padding: 32px 32px 20px;
+    border-bottom: 2px solid var(--ink);
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+
+  .eyebrow {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.14em;
     text-transform: uppercase;
-}
+    color: var(--steel);
+    margin: 0 0 6px;
+  }
 
-/* RIGHT NAV + BUTTONS */
-.header-right {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    gap: 12px;
-}
-nav a {
-    text-decoration: none;
-    color: #222;
-    font-size: 16px;
-    font-weight: 600;
-}
-.btn {
-    background: linear-gradient(90deg,#f06b3a,#2b77ff);
-    color: white;
-    padding: 8px 14px;
-    border-radius: 8px;
-    font-weight: 600;
-    text-decoration: none;
-}
-
-/* MOBILE HEADER FIX */
-@media(max-width: 750px) {
-
-    header {
-        grid-template-columns: 1fr;
-        padding: 6px 10px;
-        gap: 4px;
-    }
-
-    .logo img {
-        width: 55px;
-        height: 55px;
-    }
-
-    .brand {
-        font-size: 28px;
-        margin-top: -4px;
-    }
-
-    .header-right {
-        justify-content: center;
-        flex-wrap: wrap;
-        gap: 6px;
-    }
-
-    nav a {
-        font-size: 14px;
-        padding: 4px 8px;
-    }
-
-    .btn {
-        padding: 6px 10px;
-        font-size: 13px;
-    }
-}
-
-/* HERO */
-.hero {
-    padding: 80px 20px 40px;
-    text-align: center;
-}
-.hero-inner {
-    max-width: 1100px;
-    margin: auto;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 30px;
-    justify-content: center;
-    align-items: center;
-}
-.hero-left {
-    flex: 1 1 400px;
-}
-.hero-title {
-    font-family: "Playfair Display", serif;
-    font-size: 40px;
+  h1 {
+    font-family: 'Oswald', sans-serif;
     font-weight: 700;
-    color: #0b2340;
-    margin-bottom: 12px;
-}
-.hero-sub {
-    font-size: 17px;
-    margin-bottom: 18px;
-}
-.quote {
-    padding: 14px;
-    background: rgba(255,255,255,0.6);
-    font-style: italic;
-    border-radius: 10px;
-    max-width: 90%;
-    display: inline-block;
-    font-size: 16px;
-}
-.shop-now {
-    margin-top: 20px;
-    background: linear-gradient(90deg,#f06b3a,#2b77ff);
-    color: white;
-    padding: 12px 22px;
+    font-size: 26px;
+    letter-spacing: 0.01em;
+    margin: 0;
+    text-transform: uppercase;
+  }
+
+  .shop-address {
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 12px;
+    line-height: 1.5;
+    color: var(--steel);
+    margin: 6px 0 0;
+  }
+
+  .manifest-id {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    color: var(--steel);
+    text-align: right;
+  }
+
+  form {
+    padding: 28px 32px 8px;
+    display: grid;
+    gap: 18px;
+  }
+
+  .field label {
+    display: block;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10.5px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--steel);
+    margin-bottom: 6px;
+  }
+
+  .field input,
+  .field textarea {
+    width: 100%;
     border: none;
-    border-radius: 10px;
-    font-size: 17px;
-    font-weight: 700;
-    cursor: pointer;
-}
+    border-bottom: 1.5px solid var(--line);
+    background: transparent;
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 16px;
+    color: var(--ink);
+    padding: 6px 2px 8px;
+    transition: border-color 0.15s ease;
+  }
 
-/* HERO RIGHT IMAGES */
-.hero-right {
-    flex: 1 1 360px;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-}
-.hero-right img {
-    width: 100%;
-    aspect-ratio: 4/3;
-    object-fit: cover;
-    border-radius: 10px;
-}
+  .field textarea { resize: vertical; min-height: 44px; font-size: 14px; }
 
-/* PRODUCT GRID */
-.section {
-    max-width: 1200px;
-    margin: auto;
-    padding: 20px;
-}
-.section h2 {
-    text-align: center;
-    font-family: "Playfair Display", serif;
-    font-size: 28px;
-    margin-bottom: 20px;
-}
-.grid {
-    display: grid;
-    gap: 15px;
-    grid-template-columns: repeat(auto-fit, minmax(180px,1fr));
-}
-.hero-thumb {
-    width: 100%;
-    aspect-ratio: 4/5;
-    border-radius: 10px;
-    object-fit: cover;
-    cursor: zoom-in;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-}
+  .field input:focus,
+  .field textarea:focus {
+    outline: none;
+    border-bottom-color: var(--route);
+  }
 
-/* MODAL */
-.modal {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.75);
+  .row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+
+  .date-combo {
     display: flex;
-    align-items: center;
-    justify-content: center;
-    opacity: 0;
-    pointer-events: none;
-    transition: 0.25s;
-    z-index: 100;
-}
-.modal.open {
-    opacity: 1;
-    pointer-events: auto;
-}
-.modal img {
-    max-width: 90%;
-    max-height: 80vh;
-    border-radius: 10px;
-}
-.modal-close {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    color: white;
-    font-size: 28px;
+    align-items: flex-end;
+    gap: 8px;
+    position: relative;
+  }
+
+  .date-combo input[type="text"] { flex: 1; }
+
+  .date-combo button {
     background: none;
     border: none;
+    border-bottom: 1.5px solid var(--line);
+    font-size: 16px;
+    line-height: 1;
+    padding: 6px 4px 8px;
     cursor: pointer;
-}
+  }
 
-/* FOOTER */
-footer {
+  .date-combo input[type="date"] {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+    width: 1px;
+    height: 1px;
+  }
+
+  .divider {
+    border: none;
+    border-top: 1px dashed var(--line);
+    margin: 4px 0;
+  }
+
+  .actions {
+    padding: 22px 32px 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  button#printSend {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 600;
+    font-size: 16px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--paper);
+    background: var(--ink);
+    border: none;
+    padding: 15px 20px;
+    cursor: pointer;
+    transition: transform 0.08s ease, background 0.15s ease;
+  }
+
+  button#printSend:hover { background: var(--route); }
+  button#printSend:active { transform: scale(0.98); }
+
+  button#printSend:disabled {
+    background: var(--steel);
+    cursor: wait;
+  }
+
+  .status {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
     text-align: center;
-    padding: 20px;
-    background: rgba(255,255,255,0.7);
-    backdrop-filter: blur(6px);
-    font-size: 14px;
-    margin-top: 20px;
-}
+    min-height: 16px;
+    color: var(--steel);
+  }
+
+  .status.ok { color: var(--confirm); }
+  .status.err { color: var(--route); }
+
+  .stamp {
+    position: fixed;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%) rotate(-12deg) scale(0);
+    font-family: 'Oswald', sans-serif;
+    font-weight: 700;
+    font-size: 42px;
+    letter-spacing: 0.08em;
+    color: var(--confirm);
+    border: 5px solid var(--confirm);
+    padding: 10px 26px;
+    border-radius: 6px;
+    pointer-events: none;
+    opacity: 0;
+    z-index: 50;
+  }
+
+  .stamp.hit {
+    animation: stampHit 0.9s cubic-bezier(.2,1.4,.4,1) forwards;
+  }
+
+  @keyframes stampHit {
+    0%   { transform: translate(-50%, -50%) rotate(-12deg) scale(2.2); opacity: 0; }
+    35%  { transform: translate(-50%, -50%) rotate(-12deg) scale(0.95); opacity: 1; }
+    50%  { transform: translate(-50%, -50%) rotate(-12deg) scale(1.05); opacity: 1; }
+    70%  { transform: translate(-50%, -50%) rotate(-12deg) scale(1); opacity: 1; }
+    100% { transform: translate(-50%, -50%) rotate(-12deg) scale(1); opacity: 0; transition: opacity 0.3s ease 1.4s; }
+  }
+
+  #printArea { display: none; }
+
+  @media print {
+    body * { visibility: hidden; }
+    #printArea, #printArea * { visibility: visible; }
+    #printArea {
+      display: block;
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%;
+      padding: 24px;
+      font-family: 'IBM Plex Sans', sans-serif;
+      color: #000;
+    }
+    #printArea h2 { font-family: 'Oswald', sans-serif; margin-bottom: 4px; }
+    #printArea table { width: 100%; border-collapse: collapse; margin-top: 16px; }
+    #printArea td { padding: 8px 0; border-bottom: 1px solid #ccc; font-size: 14px; }
+    #printArea td.label { color: #555; width: 40%; }
+  }
+
+  @media (max-width: 480px) {
+    .row-2 { grid-template-columns: 1fr; }
+    .manifest-head { flex-direction: column; align-items: flex-start; gap: 10px; }
+    .manifest-id { text-align: left; }
+  }
 </style>
 </head>
-
 <body>
 
-<!-- Background Video -->
-<div class="video-bg">
-    <iframe src="https://www.youtube.com/embed/Xdz09cSPOWI?autoplay=1&mute=1&loop=1&playlist=Xdz09cSPOWI&controls=0&modestbranding=1"></iframe>
-</div>
-<div class="video-overlay"></div>
+<div class="manifest">
+  <div class="manifest-head">
+    <div>
+      <p class="eyebrow">Billing Entry</p>
+      <h1>2K Men's Wear</h1>
+      <p class="shop-address">No.28 Walaja Complex,<br>N.S.B. Road,<br>Trichy - 620002.</p>
+    </div>
+    <div class="manifest-id" id="manifestId">NO. —</div>
+  </div>
 
-<!-- HEADER -->
-<header>
-    <div class="header-left">
-        <div class="logo">
-            <img src="https://tse3.mm.bing.net/th/id/OIP.TuKENYrYVYNXcTuHvUR8CAHaFj?pid=Api&P=0&h=180">
+  <form id="billForm">
+    <div class="field">
+      <label for="clientName">Customer Name</label>
+      <input type="text" id="clientName" required placeholder="e.g. SULAIMAN">
+    </div>
+
+    <div class="row-2">
+      <div class="field">
+        <label for="clientPhone">Customer Phone Number</label>
+        <input type="tel" id="clientPhone" required placeholder="+91 6385589451">
+      </div>
+      <div class="field">
+        <label for="invoiceNo">Invoice No.</label>
+        <input type="text" id="invoiceNo" required placeholder="INV-1042">
+      </div>
+    </div>
+
+    <div class="row-2">
+      <div class="field">
+        <label for="amount">Amount (₹)</label>
+        <input type="number" id="amount" required placeholder="2450.00" step="0.01" min="0">
+      </div>
+      <div class="field">
+        <label for="billDate">Bill Date</label>
+        <div class="date-combo">
+          <input type="text" id="billDate" required placeholder="DD-MM-YYYY">
+          <button type="button" id="calendarBtn" aria-label="Pick date from calendar">📅</button>
+          <input type="date" id="billDatePicker" tabindex="-1">
         </div>
+      </div>
     </div>
 
-    <div class="header-center">
-        <div class="brand">JANATHA GARMENT</div>
+    <hr class="divider">
+
+    <div class="field">
+      <label for="notes">Items / Notes</label>
+      <textarea id="notes" placeholder="e.g. 2x Formal Shirt, 1x Trouser — Size 40"></textarea>
     </div>
+  </form>
 
-    <div class="header-right">
-        <nav>
-            <a href="#top">Home</a>
-            <a href="tel:+917305272710">Contact</a>
-        </nav>
-        <a class="btn" href="tel:+917305272710">Call</a>
-        <a class="btn" href="mailto:janathagarments@gmail.com">Mail</a>
-    </div>
-</header>
-
-<!-- HERO -->
-<section class="hero" id="top">
-    <div class="hero-inner">
-
-        <div class="hero-left">
-            <h1 class="hero-title">Jackets & Outfits for the Modern Look</h1>
-            <div class="hero-sub">Premium fabrics • Modern fashion • Confident style</div>
-            <div class="quote">
-                “Fashion changes, but confidence stays forever.
-                Choose outfits that elevate your presence and define your vibe.”
-            </div>
-            <button class="shop-now" id="shopBtn">Shop Now</button>
-        </div>
-
-        <div class="hero-right">
-            <img src="https://i.ytimg.com/vi/K_7A1wImExU/maxresdefault.jpg">
-            <img src="https://i.ytimg.com/vi/e5rlSNk7X7M/maxresdefault.jpg">
-            <img src="https://i.ytimg.com/vi/m9A-gW0rsbg/maxresdefault.jpg">
-            <img src="https://www.thefashionisto.com/wp-content/uploads/2023/07/Types-of-Shirts-Men-Popover.jpg">
-        </div>
-
-    </div>
-</section>
-
-<!-- PRODUCT GRID -->
-<section class="section" id="products">
-    <h2>New Arrivals</h2>
-
-    <div class="grid">
-        <img class="hero-thumb" src="https://i.ytimg.com/vi/K_7A1wImExU/maxresdefault.jpg">
-        <img class="hero-thumb" src="https://i.ytimg.com/vi/e5rlSNk7X7M/maxresdefault.jpg">
-        <img class="hero-thumb" src="https://i.ytimg.com/vi/m9A-gW0rsbg/maxresdefault.jpg">
-        <img class="hero-thumb" src="https://www.thefashionisto.com/wp-content/uploads/2023/07/Types-of-Shirts-Men-Popover.jpg">
-        <img class="hero-thumb" src="https://www.outfittrends.com/wp-content/uploads/2014/02/men-ripped-jeans-outfits.png">
-        <img class="hero-thumb" src="https://i.pinimg.com/originals/cc/4e/84/cc4e8496ac5e3e23c94d99b4bc9c1a1f.jpg">
-        <img class="hero-thumb" src="https://www.tiptopgents.com/wp-content/uploads/2022/08/looklikeamen-20220827-00016739486733205185177-1238x1536.jpg">
-        <img class="hero-thumb" src="https://cdn.shopify.com/s/files/1/0162/2116/files/30086895_166887547362125_7859526599601815552_n.jpg?v=1550739460">
-    </div>
-</section>
-
-<!-- MODAL -->
-<div class="modal" id="imgModal">
-    <button class="modal-close" id="closeModal">✕</button>
-    <img id="modalImage">
+  <div class="actions">
+    <button id="printSend" type="button">Print &amp; Send to WhatsApp</button>
+    <p class="status" id="statusMsg"></p>
+  </div>
 </div>
 
-<footer>
-    © JANATHA GARMENT • No.28 Walaja Complex, Trichy • janathagarments@gmail.com
-</footer>
+<div id="printArea">
+  <h2>2K Men's Wear — Invoice</h2>
+  <table>
+    <tr><td class="label">Customer Name</td><td id="pClientName"></td></tr>
+    <tr><td class="label">Phone Number</td><td id="pClientPhone"></td></tr>
+    <tr><td class="label">Invoice No.</td><td id="pInvoiceNo"></td></tr>
+    <tr><td class="label">Amount</td><td id="pAmount"></td></tr>
+    <tr><td class="label">Bill Date</td><td id="pBillDate"></td></tr>
+    <tr><td class="label">Items / Notes</td><td id="pNotes"></td></tr>
+  </table>
+</div>
+
+<div class="stamp" id="stamp">Sent</div>
 
 <script>
-// Smooth Scroll
-document.getElementById("shopBtn").onclick = () => {
-    document.getElementById("products").scrollIntoView({ behavior: "smooth" });
-};
+  // ====== CONFIG ======
+  // Replace with your deployed Google Apps Script Web App URL (Deploy > Web app > Execute as: Me, Who has access: Anyone)
+  const SCRIPT_URL = "PASTE_YOUR_APPS_SCRIPT_WEB_APP_URL_HERE";
+  // ====================
 
-// Modal Logic
-let modal = document.getElementById("imgModal");
-let modalImg = document.getElementById("modalImage");
-let closeModal = document.getElementById("closeModal");
+  const form = document.getElementById('billForm');
+  const btn = document.getElementById('printSend');
+  const statusMsg = document.getElementById('statusMsg');
+  const stamp = document.getElementById('stamp');
+  const manifestId = document.getElementById('manifestId');
 
-document.querySelectorAll(".hero-thumb").forEach(img => {
-    img.onclick = () => {
-        modalImg.src = img.src;
-        modal.classList.add("open");
+  const billDateText = document.getElementById('billDate');
+  const billDatePicker = document.getElementById('billDatePicker');
+  const calendarBtn = document.getElementById('calendarBtn');
+
+  function formatDDMMYYYY(isoDate) {
+    const [yyyy, mm, dd] = isoDate.split('-');
+    return `${dd}-${mm}-${yyyy}`;
+  }
+
+  // Default to today, typed as DD-MM-YYYY
+  const today = new Date();
+  billDatePicker.valueAsDate = today;
+  billDateText.value = formatDDMMYYYY(billDatePicker.value);
+
+  calendarBtn.addEventListener('click', () => {
+    if (billDatePicker.showPicker) billDatePicker.showPicker();
+    else billDatePicker.focus();
+  });
+
+  billDatePicker.addEventListener('change', () => {
+    if (billDatePicker.value) billDateText.value = formatDDMMYYYY(billDatePicker.value);
+  });
+
+  manifestId.textContent = 'NO. ' + Date.now().toString().slice(-6);
+
+  function fillPrintArea(data) {
+    document.getElementById('pClientName').textContent = data.clientName;
+    document.getElementById('pClientPhone').textContent = data.clientPhone;
+    document.getElementById('pInvoiceNo').textContent = data.invoiceNo;
+    document.getElementById('pAmount').textContent = '₹' + Number(data.amount).toFixed(2);
+    document.getElementById('pBillDate').textContent = data.billDate;
+    document.getElementById('pNotes').textContent = data.notes || '—';
+  }
+
+  function fireStamp() {
+    stamp.classList.remove('hit');
+    void stamp.offsetWidth;
+    stamp.classList.add('hit');
+  }
+
+  function downloadInvoicePDF(data) {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF({ unit: 'pt', format: 'a5' });
+
+    const pageWidth = doc.internal.pageSize.getWidth();
+    const pageHeight = doc.internal.pageSize.getHeight();
+    const margin = 42;
+    const left = margin;
+    const right = pageWidth - margin;
+
+    // ---- Watermark: faint, rotated company name behind everything else ----
+    doc.saveGraphicsState();
+    doc.setGState(new doc.GState({ opacity: 0.06 }));
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(46);
+    doc.setTextColor(27, 36, 48);
+    doc.text("2K MEN'S WEAR", pageWidth / 2, pageHeight / 2, { align: 'center', angle: 32 });
+    doc.restoreGraphicsState();
+
+    // ---- Outer border for a cleaner, framed look ----
+    doc.setDrawColor(210);
+    doc.setLineWidth(0.75);
+    doc.rect(margin - 14, margin - 14, pageWidth - 2 * (margin - 14), pageHeight - 2 * (margin - 14));
+
+    let y = margin + 12;
+
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(17);
+    doc.setTextColor(0);
+    doc.text("2K Men's Wear", left, y);
+
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(9);
+    doc.setTextColor(110);
+    y += 16;
+    doc.text('No.28 Walaja Complex,', left, y);
+    y += 12;
+    doc.text('N.S.B. Road,', left, y);
+    y += 12;
+    doc.text('Trichy - 620002.', left, y);
+    doc.setTextColor(0);
+
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(12);
+    y += 24;
+    doc.text('INVOICE', left, y);
+
+    y += 14;
+    doc.setDrawColor(180);
+    doc.setLineWidth(1);
+    doc.line(left, y, right, y);
+    y += 28;
+
+    const rows = [
+      ['Customer Name', data.clientName],
+      ['Phone Number', data.clientPhone],
+      ['Invoice No.', data.invoiceNo],
+      // Rs. is used instead of the ₹ glyph, which the PDF's built-in font can't render
+      ['Amount', 'Rs. ' + Number(data.amount).toFixed(2)],
+      ['Bill Date', data.billDate],
+      ['Items / Notes', data.notes || '—']
+    ];
+
+    rows.forEach(([label, value]) => {
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(10.5);
+      doc.text(label + ':', left, y);
+      doc.setFont('helvetica', 'normal');
+      doc.text(String(value), left + 140, y, { maxWidth: right - (left + 140) });
+      y += 26;
+    });
+
+    // ---- Seal / stamp: company name + "PAID", bottom of the invoice ----
+    const sealCx = right - 90;
+    const sealCy = pageHeight - margin - 55;
+    const sealR = 48;
+
+    doc.setDrawColor(47, 107, 79); // stamp-ink green, matches the confirm color used on screen
+    doc.setLineWidth(1.4);
+    doc.circle(sealCx, sealCy, sealR, 'S');
+    doc.circle(sealCx, sealCy, sealR - 5, 'S');
+
+    doc.setTextColor(47, 107, 79);
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(9);
+    doc.text("2K MEN'S WEAR", sealCx, sealCy - 12, { align: 'center', angle: -6 });
+    doc.setFontSize(15);
+    doc.text('PAID', sealCx, sealCy + 8, { align: 'center', angle: -6 });
+    doc.setFontSize(7);
+    doc.setFont('helvetica', 'normal');
+    doc.text(data.billDate, sealCx, sealCy + 22, { align: 'center', angle: -6 });
+    doc.setTextColor(0);
+
+    // Filename: exactly invoice number + bill date, no prompt shown to the user
+    const fileName = `${data.invoiceNo}_${data.billDate}.pdf`;
+    doc.save(fileName);
+  }
+
+  async function sendToWhatsApp(data) {
+    const message =
+      `*2K Men's Wear — New Bill*\n` +
+      `Customer: ${data.clientName}\n` +
+      `Phone: ${data.clientPhone}\n` +
+      `Invoice: ${data.invoiceNo}\n` +
+      `Amount: ₹${Number(data.amount).toFixed(2)}\n` +
+      `Date: ${data.billDate}\n` +
+      `Items: ${data.notes || '—'}`;
+
+    const res = await fetch(SCRIPT_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify({ message, clientPhone: data.clientPhone })
+    });
+
+    if (!res.ok) throw new Error('Request failed: ' + res.status);
+    return res;
+  }
+
+  btn.addEventListener('click', async () => {
+    if (!form.reportValidity()) return;
+
+    const data = {
+      clientName: document.getElementById('clientName').value.trim(),
+      clientPhone: document.getElementById('clientPhone').value.trim(),
+      invoiceNo: document.getElementById('invoiceNo').value.trim(),
+      amount: document.getElementById('amount').value,
+      billDate: document.getElementById('billDate').value,
+      notes: document.getElementById('notes').value.trim()
     };
-});
 
-closeModal.onclick = () => modal.classList.remove("open");
-modal.onclick = e => { if (e.target === modal) modal.classList.remove("open"); };
+    btn.disabled = true;
+    statusMsg.textContent = 'Sending...';
+    statusMsg.className = 'status';
+
+    try {
+      downloadInvoicePDF(data);
+      await sendToWhatsApp(data);
+      statusMsg.textContent = 'Sent to WhatsApp ✓';
+      statusMsg.className = 'status ok';
+      fireStamp();
+    } catch (err) {
+      console.error(err);
+      statusMsg.textContent = 'Could not send — check connection / Apps Script URL';
+      statusMsg.className = 'status err';
+    } finally {
+      btn.disabled = false;
+    }
+  });
 </script>
 
 </body>
